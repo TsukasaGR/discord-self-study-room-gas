@@ -20,7 +20,7 @@ const funcReport = (user: DiscordUser) => {
     status: 'ok',
     user,
     notionUpdateResult: updateAchieveLevelResponse.notionUpdateResult,
-    studyMinutes: getTotalStudyMinutes(user.userId, date),
+    totalStudyMinutes: getTotalStudyMinutes(user.userId, date),
     achievedLevel: updateAchieveLevelResponse.achievedLevel,
   };
   return postResultToDiscord(content);

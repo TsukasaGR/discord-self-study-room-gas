@@ -28,7 +28,8 @@ const doPost = (e: PayloadFromDiscord) => {
       return funcStart(user, at);
     // 終了処理
     case 'end':
-      return funcEnd(user, at);
+    case 'endAndReport':
+      return funcEnd(type, user, at);
     case 'report':
       return funcReport(user);
   }

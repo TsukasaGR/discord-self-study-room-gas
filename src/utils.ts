@@ -263,6 +263,7 @@ const getResponseJson = (data: DiscordMessageContent) => {
 const statusNames = {
   start: '自習スタート',
   end: '自習終了',
+  endAndReport: '自習終了',
   report: '自習レポート',
 };
 
@@ -274,16 +275,17 @@ const postResultToDiscord = (content: DiscordMessageContent) => {
       messageContent += `${statusNames[content.type]}です✅\n`;
       if (content.type === 'start') {
         // スタート時は追加メッセージなし
-        // TODO: このタイミングでコインをあげても良いかも
-      } else if (content.type === 'end') {
+      }
+      if (content.type === 'end' || content.type === 'endAndReport') {
         if (content.studyMinutes)
           messageContent += `作業時間: ${getDisplayHourFromMinutes(
             content.studyMinutes
-          )}`;
-      } else if (content.type == 'report') {
-        if (content.studyMinutes)
+          )}\n`;
+      }
+      if (content.type == 'report' || content.type === 'endAndReport') {
+        if (content.totalStudyMinutes)
           messageContent += `今日の合計作業時間: ${getDisplayHourFromMinutes(
-            content.studyMinutes
+            content.totalStudyMinutes
           )}😉`;
         else messageContent += `今日の作業はまだありません😲`;
 
@@ -301,9 +303,11 @@ const postResultToDiscord = (content: DiscordMessageContent) => {
         } else if (content.errorType === 'invalidSS') {
           messageContent += `スプレッドシートがおかしくなってるっぽいです😭\nお手数ですが管理者へ連絡してください。`;
         } else if (content.errorType === 'invalidStudyStart') {
-          messageContent += `未終了のレコードがないかスプシを確認してください👀\n(未終了を忘れた場合は手動で入力してください)\n${SS_SHEET_URL}`;
+          messageContent += `未終了のレコードがないかスプシを確認してください👀\n(終了を忘れた場合は手動で入力してください)\n${SS_SHEET_URL}`;
         } else if (content.errorType === 'invalidStudyEnd') {
           messageContent += `自習がスタートしていないようです👀\n自習を開始するか、おかしなレコードがないかスプシを確認してください。\n${SS_SHEET_URL}`;
+        } else if (content.errorType === 'invalidType') {
+          messageContent += `不正な処理が行われました👀\nお手数ですが管理者へ連絡してください。`;
         } else {
           messageContent += `想定外のエラーです😭😭😭\nお手数ですが管理者へ連絡してください。`;
         }

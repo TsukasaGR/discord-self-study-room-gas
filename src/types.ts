@@ -12,6 +12,7 @@ type DiscordMessageContent = {
   user: DiscordUser;
   errorType?: ErrorType;
   studyMinutes?: number;
+  totalStudyMinutes?: number;
   achievedLevel?: number;
   notionUpdateResult?: NotionUpdatedResult;
 };
@@ -23,7 +24,7 @@ type ResponseFromSS = {
   achievedLevel?: number;
 };
 
-type DiscordFuncType = 'start' | 'end' | 'report';
+type DiscordFuncType = 'start' | 'end' | 'endAndReport' | 'report';
 
 type PayloadFromDiscord = {
   postData: GoogleAppsScript.Base.Blob;
@@ -38,6 +39,7 @@ type JsonPayloadFromDiscord = {
 
 type ErrorType =
   | 'UnregisteredUser'
+  | 'invalidType'
   | 'invalidAt'
   | 'invalidSS'
   | 'invalidStudyStart'
