@@ -262,7 +262,7 @@ const getResponseJson = (data: DiscordMessageContent) => {
 
 const statusNames = {
   start: '自習スタート',
-  end: '自習終了',
+  end: '自習中断',
   endAndReport: '自習終了',
   report: '自習レポート',
 };
