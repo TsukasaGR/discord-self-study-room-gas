@@ -52,3 +52,8 @@ type RewardItem = {
 type QuestType = 'daily' | 'levelUp';
 
 type NotionUpdatedResult = 'ok' | 'skip' | 'ng';
+
+type UpdateAchieveLevelResponse = {
+  achievedLevel: number,
+  notionUpdateResult: NotionUpdatedResult,
+}
